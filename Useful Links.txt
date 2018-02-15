@@ -1,0 +1,44 @@
+https://rpubs.com/jlroo/corenlp
+
+https://cran.r-project.org/web/packages/coreNLP/coreNLP.pdf
+
+http://saujanyareddy.github.io/
+
+http://www.informit.com/articles/article.aspx?p=2215520 # XML to DF
+
+http://martinschweinberger.de/docs/articles/PosTagR.pdf # POS Tagging
+https://stackoverflow.com/questions/30995232/how-to-use-opennlp-to-get-pos-tags-in-r # POS Tagging
+
+
+
+https://github.com/davidsbatista/Aspect-Based-Sentiment-Analysis/tree/master/datasets/ABSA-SemEval2014
+
+
+
+
+############V.Good##################
+
+http://alt.qcri.org/semeval2014/task4/data/uploads/baselinesystemdescription.pdf
+
+http://people.dbmi.columbia.edu/noemie/papers/naacl10.pdf
+
+
+http://www.dialog-21.ru/media/1112/ivanovvvetal.pdf
+
+http://r-statistics.co/Association-Mining-With-R.html
+
+https://cran.r-project.org/web/packages/arules/vignettes/arules.pdf
+
+----------------------------------------Seach for association rule mining----------------------------------------
+http://michael.hahsler.net/research/arules_RUG_2015/demo/
+
+http://r-statistics.co/Association-Mining-With-R.html
+
+https://nlp.stanford.edu/software/dependencies_manual.pdf
+
+https://www.rdocumentation.org/packages/coreNLP/versions/0.4-2
+
+-------------------------------------------^^ Working on this ^^-------------------------------------------------
+#################TensorFlow
+
+https://pub.uni-bielefeld.de/download/2904445/2906424
