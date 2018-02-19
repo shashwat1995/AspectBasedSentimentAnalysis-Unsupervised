@@ -175,17 +175,32 @@ transact<-data.frame(transact)
 #### butter 4,7
 ### milk 3,5,6
 ####coconut 8,9
-mat_Transapose<-t(newmattrix)
+
 trans<- as(newmatrix,"transactions")
 
 itemsets <- apriori(trans, parameter = list(target = "frequent",
                                             supp=0.03, minlen = 2, maxlen=4))
 
-
-#sort out the top frequent itemsets
-# then study governor dependency parser
-# study stanford dependency parser
-
 frequent<- as.data.frame(inspect(head(sort(itemsets), n=1000)))
 
 frequent$items<-as.character(frequent$items)
+
+# store result of GetDependency() for each annotatedstring(Assomatri$Text[i])
+# only if either governor or dependent is a noun ,
+#other should be in polarity
+#save Governor, Dependent , Polarity in a data frame
+#
+#
+#
+
+initCoreNLP()
+k=1
+for(i in k:nrow(Assomatrix))
+Dependency <- as.data.frame(getDependency(annotateString(Assomatrix$Text[i])))
+k = nrow(Dependency)
+
+
+isTRUE(grep(noun[i],output)==1)
+{ 
+  }
+
