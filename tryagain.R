@@ -189,18 +189,44 @@ frequent$items<-as.character(frequent$items)
 # only if either governor or dependent is a noun ,
 #other should be in polarity
 #save Governor, Dependent , Polarity in a data frame
+#                                                  ^
+#                                                  |
+#                                                  |
+#                                                  |
+# To Do                                            |
+#load polarity in data frame                       |
+#make a new empty data frame for  ------------------
 #
 #
 #
+
 
 initCoreNLP()
+#/problem is that getDependency() returns multiple rows and im trying yo store all in 1 row only
+Dependency <- matrix(0, ncol = 8, nrow = 10000)
+Dependency<- as.data.frame(Dependency)
+
 k=1
-for(i in k:nrow(Assomatrix))
-Dependency <- as.data.frame(getDependency(annotateString(Assomatrix$Text[i])))
+i=1
+while(i< 500)
+ {
+  tempdf<- as.data.frame(getDependency(annotateString(Assomatrix$Text[i])))
+ count <- nrow(tempdf)
+  for(j in 1:count)
+  Dependency[j,]<- split(tempdf,rep())
+  
+#Dependency[k,]<- getDependency(annotateString(Assomatrix$Text[i]))
 k = nrow(Dependency)
+i = i+1
+}
 
 
-isTRUE(grep(noun[i],output)==1)
-{ 
+for(j in 1:nrow(Dependency))
+for(i in 1:nrow(noun))
+{
+  if(isTRUE(grep(noun[i],Dependency$Governor[j])==1))
+  {
+        if(isTRUE(grep(Polarity[j],Dependency$Dependent[i])==1))
   }
+}
 
