@@ -163,7 +163,7 @@ transact<-data.frame(transact)
 #seperate governor dependant pairs from getdependency() which contain aspects
 #
 
-###########################################################NOT WORKING############################################################# 
+
 #MATRIX #1
 #  bread  butter milk coconut
 #1   1     0      0     1
@@ -196,37 +196,92 @@ frequent$items<-as.character(frequent$items)
 # To Do                                            |
 #load polarity in data frame                       |
 #make a new empty data frame for  ------------------
-#
-#
-#
 
 
-initCoreNLP()
-#/problem is that getDependency() returns multiple rows and im trying yo store all in 1 row only
-Dependency <- matrix(0, ncol = 8, nrow = 10000)
-Dependency<- as.data.frame(Dependency)
+initCoreNLP() # need to initialize coreNLp for getDependency()
 
-k=1
-i=1
-while(i< 500)
- {
-  tempdf<- as.data.frame(getDependency(annotateString(Assomatrix$Text[i])))
- count <- nrow(tempdf)
-  for(j in 1:count)
-  Dependency[j,]<- split(tempdf,rep())
-  
-#Dependency[k,]<- getDependency(annotateString(Assomatrix$Text[i]))
-k = nrow(Dependency)
-i = i+1
-}
+#rownames(lexicon) <- seq(length=nrow(lexicon))
 
 
-for(j in 1:nrow(Dependency))
+
+###########################################################NOT WORKING############################################################# 
+
+for(k in 1:nrow(Assomatrix))
+{
+  tempdf<- as.data.frame(getDependency(annotateString(Assomatrix$Text[k])))#find GD Pairs of sentence k
+    
+for(j in 1:nrow(tempdf))#############################<---Discard useless GOV-DEP Pairs--->#################
 for(i in 1:nrow(noun))
 {
-  if(isTRUE(grep(noun[i],Dependency$Governor[j])==1))
-  {
-        if(isTRUE(grep(Polarity[j],Dependency$Dependent[i])==1))
-  }
+     if(isTRUE(grep(tempdf$governor[j],noun$word[i])==1))
+          { 
+             # for(l in 1:nrow(lexicon))
+               # {
+                #    if(!isTRUE(grep(lexicon$word[l],tempdf$dependent[j])==1))
+                #        {
+                 #         tempdf<-tempdf[-c(j),]
+                  #      }   
+               # }
+              #  if(which(tempdf$dependent[j]==lexicon$word) > 0)
+                  if(!isTRUE(which(tempdf$dependent[j]==lexicon$word)>0))
+                  tempdf<-tempdf[-c(j),]
+                    
+                #  if(isTRUE(which(tempdf$dependent[j]==lexicon$word)>0))
+               #   {Dependency[p,]<-tempdf[c(j),]
+                #   p=p+1
+                #  }         
+                 
+          }
+      else if(isTRUE(grep(tempdf$dependent[j],noun$word[i])==1))
+          { 
+                #if(which(tempdf$governor[j]==lexicon$word) > 0)
+                  if(!isTRUE(which(tempdf$governor[j]==lexicon$word)>0))
+                  tempdf<-tempdf[-c(j),]
+                  
+                #  if(isTRUE(which(tempdf$governor[j]==lexicon$word)>0))
+                     #  {Dependency[p,]<-tempdf[c(j),]
+                      # p=p+1
+      }
+}
+  #####################################<---End of Discard--->##################################################
+  if(k==1)
+   Dependency_final <- tempdf
+  else
+    Dependency_final<- merge(Dependency_final,tempdf)
 }
 
+
+
+
+
+
+
+#
+#
+#have created tempdf for storing getdependency()
+# & temp to compare the results of oother copies with this(removinf gov-dep pairs and will later copy to Dependency)
+#& Dependency (adding selected rows directly to dependency)
+#
+#
+
+
+#****************************************Trying to append directly to Dependency*******************************************************
+  
+  for(j in 1:nrow(tempdf))
+for(i in 1:nrow(noun))
+{
+  if(isTRUE(grep(tempdf$governor[j],noun$word[i])==1))
+  { 
+  
+      if(isTRUE(which(tempdf$dependent[j]==lexicon$word)>0))
+    Dependency<-merge(Dependency,tempdf[j,])        
+    
+  }
+  else if(isTRUE(grep(tempdf$dependent[j],noun$word[i])==1))
+  { 
+ 
+      if(isTRUE(which(tempdf$governor[j]==lexicon$word)>0))
+      Dependency<-merge(Dependency,tempdf[j,])
+  }
+}
+#**************************************************************************************************************************************
