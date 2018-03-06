@@ -302,7 +302,7 @@ for(k in 1:nrow(Assomatrix))
 lexicon$word<- as.character(lexicon$word)
 
 for (i in 1: nrow(Dependency_final))
- Dependency_final$polarity[i]<- lexicon$value[match(Dependency_final[i,which(Dependency_final[i,] %in% lexicon$word)] , lexicon$word)]
+  Dependency_final$polarity[i]<- lexicon$value[match(Dependency_final[i,which(Dependency_final[i,] %in% lexicon$word)] , lexicon$word)]
 
 
 #make polarity coloumn in Assomatrix
@@ -324,12 +324,6 @@ for(i in 1:nrow(Assomatrix))
 
 
 
-
-#**************************************************************************************************************************************
-
-###################################################################NOT-WORKING######################################################### 
-
-
 #
 
 #then run word to word grep in each sentence for Negation pairs 
@@ -345,4 +339,44 @@ for(i in 1:nrow(Assomatrix))
     }
   }
 }
+###################################Comparing to test dataset Restaurant_Train.xml##################################################
+#To find the accuracy
+doc <- docxml[which((docxml$aspectCategories.aspectCategory=="positive")|(docxml$aspectCategories.aspectCategory=="negative" )),]
+
+#we only need first 5 col
+docqw <-as.data.frame(doc[,(2:5)])
+
+docqw$.attrs<- NULL
+docqw$aspectTerm <- NULL
+
+docqw$polarity <-0
+
+#if negative then -1 and vis-a-vis
+for(i in 1:nrow(docqw))
+{
+  if(docqw$aspectCategory[i] == "negative")
+    docqw$polarity[i] = -1
+  else if(docqw$aspectCategory[i] == "positive")
+    docqw$polarity[i] = 1
+}
+
+
+docqw <- as.data.frame(unique(docqw))
+#**************************************************************************************************************************************
+
+###################################################################NOT-WORKING######################################################### 
+docqw$text<-as.character(docqw$text)
+#remove puntuations
+for (i in 1:nrow(docqw))
+  docqw$text[i]<- gsub("[[:punct:]]"," ", docqw$text[i])
+
+matching <- 0
+for (i in 1:nrow(docqw))
+  for(j in 1:nrow(Assomatrix))
+  {   
+    if(identical(docqw$text[i],Assomatrix$Text[j]))
+      if(docqw$polarity[i]== Assomatrix$polarity[j])
+        matching = matching +1
+  }
+## matched 1142 out of 1892 = 0.603
 
